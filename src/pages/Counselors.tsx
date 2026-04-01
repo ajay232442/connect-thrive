@@ -1,14 +1,16 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CounselorCard from "@/components/CounselorCard";
-import { counselors } from "@/data/counselors";
+import { useCounselors } from "@/hooks/useCounselors";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 
 const Counselors = () => {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<"all" | "available">("all");
+  const { data: counselors = [], isLoading } = useCounselors();
 
   const filtered = counselors.filter((c) => {
     const matchesSearch = c.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -51,13 +53,17 @@ const Counselors = () => {
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.map((c) => (
-              <CounselorCard key={c.id} counselor={c} />
-            ))}
-          </div>
+          {isLoading ? (
+            <p className="text-center text-muted-foreground py-12">Loading counselors...</p>
+          ) : (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filtered.map((c) => (
+                <CounselorCard key={c.id} counselor={c} />
+              ))}
+            </div>
+          )}
 
-          {filtered.length === 0 && (
+          {!isLoading && filtered.length === 0 && (
             <p className="text-center text-muted-foreground py-12">No counselors found matching your criteria.</p>
           )}
         </div>

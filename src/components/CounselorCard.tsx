@@ -3,14 +3,14 @@ import { Star, Video, MessageSquare } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export interface Counselor {
-  id: number;
+  id: string;
   name: string;
   specialty: string;
-  rating: number;
-  sessions: number;
-  avatar: string;
-  available: boolean;
-  bio: string;
+  rating: number | null;
+  sessions: number | null;
+  avatar_url: string | null;
+  available: boolean | null;
+  bio: string | null;
 }
 
 const CounselorCard = ({ counselor }: { counselor: Counselor }) => (
@@ -29,9 +29,9 @@ const CounselorCard = ({ counselor }: { counselor: Counselor }) => (
         <p className="text-sm text-muted-foreground">{counselor.specialty}</p>
         <div className="flex items-center gap-3 mt-2">
           <span className="flex items-center gap-1 text-sm text-accent">
-            <Star className="h-3.5 w-3.5 fill-current" /> {counselor.rating}
+            <Star className="h-3.5 w-3.5 fill-current" /> {counselor.rating ?? 0}
           </span>
-          <span className="text-sm text-muted-foreground">{counselor.sessions}+ sessions</span>
+          <span className="text-sm text-muted-foreground">{counselor.sessions ?? 0}+ sessions</span>
         </div>
       </div>
     </div>
