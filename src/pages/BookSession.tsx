@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { counselors } from "@/data/counselors";
+import { useCounselors } from "@/hooks/useCounselors";
 import { Calendar, Clock, CheckCircle } from "lucide-react";
 import { toast } from "sonner";
 
@@ -15,6 +15,7 @@ const timeSlots = ["9:00 AM", "10:00 AM", "11:00 AM", "1:00 PM", "2:00 PM", "3:0
 const BookSession = () => {
   const [submitted, setSubmitted] = useState(false);
   const [selectedTime, setSelectedTime] = useState("");
+  const { data: counselors = [] } = useCounselors();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,7 +70,7 @@ const BookSession = () => {
                 </SelectTrigger>
                 <SelectContent>
                   {counselors.filter(c => c.available).map((c) => (
-                    <SelectItem key={c.id} value={String(c.id)}>{c.name} — {c.specialty}</SelectItem>
+                    <SelectItem key={c.id} value={c.id}>{c.name} — {c.specialty}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
