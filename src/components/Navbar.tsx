@@ -3,10 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, LogOut } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { user, signOut } = useAuth();
+  const { data: isAdmin } = useIsAdmin();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
@@ -22,7 +24,9 @@ const Navbar = () => {
             <>
               <Link to="/dashboard" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Dashboard</Link>
               <Link to="/book" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Book Session</Link>
-              <Link to="/manage-counselors" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Manage</Link>
+              {isAdmin && (
+                <Link to="/manage-counselors" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Manage</Link>
+              )}
             </>
           )}
           {user ? (
@@ -49,7 +53,9 @@ const Navbar = () => {
             <>
               <Link to="/dashboard" className="text-sm font-medium py-2" onClick={() => setOpen(false)}>Dashboard</Link>
               <Link to="/book" className="text-sm font-medium py-2" onClick={() => setOpen(false)}>Book Session</Link>
-              <Link to="/manage-counselors" className="text-sm font-medium py-2" onClick={() => setOpen(false)}>Manage</Link>
+              {isAdmin && (
+                <Link to="/manage-counselors" className="text-sm font-medium py-2" onClick={() => setOpen(false)}>Manage</Link>
+              )}
             </>
           )}
           {user ? (
