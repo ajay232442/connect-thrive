@@ -9,6 +9,7 @@ import Counselors from "./pages/Counselors.tsx";
 import BookSession from "./pages/BookSession.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import Auth from "./pages/Auth.tsx";
+import ManageCounselors from "./pages/ManageCounselors.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/book" element={<BookSession />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/manage-counselors" element={<ManageCounselors />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
