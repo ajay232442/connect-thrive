@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { useCounselors } from "@/hooks/useCounselors";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -11,11 +12,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { Trash2, Plus, UserPlus } from "lucide-react";
+import { Trash2, Plus, UserPlus, ShieldAlert } from "lucide-react";
 import { Navigate } from "react-router-dom";
 
 const ManageCounselors = () => {
   const { user, loading: authLoading } = useAuth();
+  const { data: isAdmin, isLoading: adminLoading } = useIsAdmin();
   const { data: counselors = [], isLoading } = useCounselors();
   const queryClient = useQueryClient();
 
@@ -27,6 +29,32 @@ const ManageCounselors = () => {
   const [submitting, setSubmitting] = useState(false);
 
   if (!authLoading && !user) return <Navigate to="/auth" replace />;
+
+  if (authLoading || adminLoading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-1 pt-24 pb-16 flex items-center justify-center">
+          <p className="text-muted-foreground">Loading...</p>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-1 pt-24 pb-16 flex flex-col items-center justify-center gap-4">
+          <ShieldAlert className="h-16 w-16 text-destructive" />
+          <h1 className="text-2xl font-bold text-foreground">Access Denied</h1>
+          <p className="text-muted-foreground">Only administrators can manage counselors.</p>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
