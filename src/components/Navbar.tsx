@@ -22,6 +22,7 @@ const Navbar = () => {
             <>
               <Link to="/dashboard" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Dashboard</Link>
               <Link to="/book" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Book Session</Link>
+              <Link to="/manage-counselors" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Manage</Link>
             </>
           )}
           {user ? (
@@ -48,6 +49,7 @@ const Navbar = () => {
             <>
               <Link to="/dashboard" className="text-sm font-medium py-2" onClick={() => setOpen(false)}>Dashboard</Link>
               <Link to="/book" className="text-sm font-medium py-2" onClick={() => setOpen(false)}>Book Session</Link>
+              <Link to="/manage-counselors" className="text-sm font-medium py-2" onClick={() => setOpen(false)}>Manage</Link>
             </>
           )}
           {user ? (
